@@ -1,13 +1,12 @@
-name: JoinTravel
-version: 1.0
+name: PMCJoinTravel
+version: ${project.version}
 main: com.popupmc.jointravel.JoinTravel
-description: Join Travel
+description: ${project.description}
 author: junebug12851
 api-version: 1.15
 
 commands:
-  jt-continue:
-    permission: jt.continue
-    permission-message: You don't have permission to perform this action
+  joinTravel:
+    aliases: [jt]
     description: Join Travel Continue
-    usage: /jt-continue <player>
+    usage: Command was not registered properly.

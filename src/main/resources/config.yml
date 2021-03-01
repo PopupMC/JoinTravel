@@ -1,0 +1,9 @@
+prefix: '&f[&cJoinTravel&f]'
+
+join commands:
+  - 'time set day %world%'
+  - 'weather %world% sun'
+  - 'asl travel-w-command %player% '
+
+# Time in minecraft ticks (20 ticks = 1 second) t owait before executing the next command.
+delay between commands: 1
