@@ -2,7 +2,7 @@ package com.popupmc.jointravel.commands;
 
 import com.popupmc.jointravel.JoinTravel;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,97 +16,63 @@ public class MainCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    private void send(CommandSender sender, String msg){
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix")+" "+msg));
+    }
+
 
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!sender.hasPermission("jt.continue")) {
-            sender.sendMessage("You don't have permission to use that command");
-            return false;
-        }
-
-        if(args.length != 1) {
-            sender.sendMessage("Wrong arguments");
-//            getLogger().info("Wrong Arguments");
-            return false;
-        }
-
-        String playerName = args[0];
-        Player p = Bukkit.getPlayer(playerName);
-
-        if(p == null) {
-            sender.sendMessage("Can't find that player");
-//            getLogger().info("Can't find that player");
-            return false;
-        }
-
-        // Offset x by 2
-        Location location = p.getLocation().clone();
-        location.setX(location.getX() - 2);
-
-        // Place chest there
-        placeBlock(location, "minecraft:chest", "LootTable:\"chests/spawn_bonus_chest\"");
-
-        // Place torch +X +Z
-        Location torchLocation = location.clone();
-        torchLocation.setX(torchLocation.getX() + 1);
-        torchLocation.setZ(torchLocation.getZ() + 1);
-        placeBlock(torchLocation, "minecraft:torch");
-
-        // Place torch +X -Z
-        torchLocation = location.clone();
-        torchLocation.setX(torchLocation.getX() + 1);
-        torchLocation.setZ(torchLocation.getZ() - 1);
-        placeBlock(torchLocation, "minecraft:torch");
-
-        // Place torch -X +Z
-        torchLocation = location.clone();
-        torchLocation.setX(torchLocation.getX() - 1);
-        torchLocation.setZ(torchLocation.getZ() + 1);
-        placeBlock(torchLocation, "minecraft:torch");
-
-        // Place torch -X -Z
-        torchLocation = location.clone();
-        torchLocation.setX(torchLocation.getX() - 1);
-        torchLocation.setZ(torchLocation.getZ() - 1);
-        placeBlock(torchLocation, "minecraft:torch");
+        if(args.length == 0 || args[0].equalsIgnoreCase("help")){
+            send(sender, "&f/"+label+" help");
+            send(sender, "&f/"+label+" version");
+            send(sender, "&f/"+label+" reload");
+            send(sender, "&f/"+label+" chest (player)");
+            send(sender, "");
 
 
-        // Make block above air
-        Location airLocation = location.clone();
-        airLocation.setY(location.getY() + 1);
-        for(int x = -1; x <= 1; x++) {
-            for(int z = -1; z <= 1; z++) {
-                Location airLocationOffset = airLocation.clone();
-                airLocationOffset.setX(airLocation.getX() + x);
-                airLocationOffset.setZ(airLocation.getZ() + z);
-
-                placeBlock(airLocationOffset, "minecraft:air");
+        }else if(args[0].equalsIgnoreCase("version")){
+            if(!sender.hasPermission("joinTravel.version")){
+                send(sender, "&cNo permission");
+                return true;
             }
+            send(sender, "&fVersion: "+plugin.getDescription().getVersion());
+
+
+        }else if(args[0].equalsIgnoreCase("reload")){
+            if(!sender.hasPermission("joinTravel.reload")){
+                send(sender, "&cNo permission");
+                return true;
+            }
+
+
+            plugin.reloadConfig();
+
+
+        }else if(args[0].equalsIgnoreCase("chest")){
+            if(!sender.hasPermission("joinTravel.chest")){
+                send(sender, "&cNo permission");
+                return true;
+            }
+            if(args.length < 2){
+                send(sender, "&cUse: &f/"+label+" chest (player)");
+                return true;
+            }
+            Player player = Bukkit.getPlayer(args[1]);
+            if(player == null){
+                send(sender, "&cThat player does not exist or is not online.");
+                return true;
+            }
+            plugin.spawnChest(player);
+
+
+
+        }else{
+            send(sender, "&cUnknown command. &fTry /"+label+" help");
         }
+
 
         return true;
-    }
-
-
-
-    public void placeBlock(Location location, String item) {
-        placeBlock(location, item, null);
-    }
-
-    public void placeBlock(Location location, String item, String nbt) {
-        if(nbt != null)
-            nbt = "{" + nbt + "}";
-        else
-            nbt = "";
-
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                "setblock " +
-                        location.getBlockX() + " " +
-                        location.getBlockY() + " " +
-                        location.getBlockZ() + " " +
-                        item +
-                        nbt +
-                        " replace");
     }
 }

@@ -2,9 +2,12 @@ package com.popupmc.jointravel.events;
 
 import com.popupmc.jointravel.JoinTravel;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class JoinEvent implements Listener {
 
@@ -18,16 +21,26 @@ public class JoinEvent implements Listener {
     public void onJoin(PlayerJoinEvent event){
         if(!event.getPlayer().hasPlayedBefore()) {
             // New player incoming
+            FileConfiguration config = plugin.getConfig();
+            Player player = event.getPlayer();
 
-            // Set time to day so they dont spawn at night
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "time set day main");
+            for(String command : config.getStringList("join commands")){
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command
+                        .replace("%player%", player.getName())
+                        .replace("%world%", player.getWorld().getName()));
+            }
 
-            // Remove weather effects
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "weather main sun");
+            int delay = config.getInt("chest spawn delay");
 
-            // Teleport randomly in main world
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "asl travel-w-command " + event.getPlayer().getName() + " jt-continue " + event.getPlayer().getName());
+            if(delay > 0){
+                new BukkitRunnable(){
+                    public void run(){
+                        plugin.spawnChest(player);
+                    }
+                }.runTaskLater(plugin, delay);
+            }
+
         }
-
     }
+
 }

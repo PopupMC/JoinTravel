@@ -1,9 +1,31 @@
 prefix: '&f[&cJoinTravel&f]'
 
+#The commands to run (console) when a new player joins.
 join commands:
   - 'time set day %world%'
   - 'weather %world% sun'
-  - 'asl travel-w-command %player% '
+  - 'asl travel-w-command %player% jt chest %player%'
 
-# Time in minecraft ticks (20 ticks = 1 second) t owait before executing the next command.
-delay between commands: 1
+# Time in minecraft ticks (20 ticks = 1 second) to wait after the last command
+# before placing the bonus chest. Set to -1 to disable automatic bonus chest.
+chest spawn delay: 1
+
+# If this is enabled, the contents of the chest will be those of the vanilla spawn bonus chest.
+# If disabled, the chest will contain the items listed in "chest contents" below.
+vanilla contents: true
+
+# The contents for the chest placed when executing the "joinTravel chest (player)" command.
+# The items will be put in the chest in random spots.
+# ONLY USED IF "vanilla contents" is set to false.
+chest contents:
+  - APPLE,3
+  - APPLE,1
+  - OAK_PLANKS,5
+  - OAK_PLANKS,10
+  - STONE_AXE,1
+  - OAK_LOG,1
+  - SALMON,2
+  - SALMON,1
+  - STICK,1
+  - BREAD,2
+  - BREAD,4
