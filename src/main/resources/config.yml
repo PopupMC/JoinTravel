@@ -1,10 +1,9 @@
-prefix: '&f[&cJoinTravel&f]'
+prefix: '&f[&cSoloExperience&f]'
 
 #The commands to run (console) when a new player joins.
 join commands:
   - 'time set day %world%'
   - 'weather %world% sun'
-  - 'asl travel-w-command %player% jt chest %player%'
 
 # Time in minecraft ticks (20 ticks = 1 second) to wait after the last command
 # before placing the bonus chest. Set to -1 to disable automatic bonus chest.
@@ -14,7 +13,7 @@ chest spawn delay: 1
 # If disabled, the chest will contain the items listed in "chest contents" below.
 vanilla contents: true
 
-# The contents for the chest placed when executing the "joinTravel chest (player)" command.
+# The contents for the chest placed when executing the "soloexperience chest (player)" command.
 # The items will be put in the chest in random spots.
 # ONLY USED IF "vanilla contents" is set to false.
 chest contents:

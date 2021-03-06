@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.popupmc</groupId>
-    <artifactId>JoinTravel</artifactId>
-    <name>PMCJoinTravel</name>
+    <artifactId>SoloExperience</artifactId>
+    <name>PMCSoloExperience</name>
     <version>1.0.0</version>
 
     <properties>

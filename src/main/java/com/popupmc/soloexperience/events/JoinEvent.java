@@ -1,6 +1,6 @@
-package com.popupmc.jointravel.events;
+package com.popupmc.soloexperience.events;
 
-import com.popupmc.jointravel.JoinTravel;
+import com.popupmc.soloexperience.SoloExperience;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -11,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class JoinEvent implements Listener {
 
-    private final JoinTravel plugin;
+    private final SoloExperience plugin;
 
-    public JoinEvent(JoinTravel plugin){
+    public JoinEvent(SoloExperience plugin){
         this.plugin = plugin;
     }
 

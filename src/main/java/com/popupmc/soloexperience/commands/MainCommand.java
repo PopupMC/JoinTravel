@@ -1,6 +1,6 @@
-package com.popupmc.jointravel.commands;
+package com.popupmc.soloexperience.commands;
 
-import com.popupmc.jointravel.JoinTravel;
+import com.popupmc.soloexperience.SoloExperience;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 
 public class MainCommand implements CommandExecutor {
 
-    private final JoinTravel plugin;
+    private final SoloExperience plugin;
 
-    public MainCommand(JoinTravel plugin){
+    public MainCommand(SoloExperience plugin){
         this.plugin = plugin;
     }
 
@@ -25,15 +25,15 @@ public class MainCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0 || args[0].equalsIgnoreCase("help")){
+            send(sender, "&6List of commands");
             send(sender, "&f/"+label+" help");
             send(sender, "&f/"+label+" version");
             send(sender, "&f/"+label+" reload");
             send(sender, "&f/"+label+" chest (player)");
-            send(sender, "");
 
 
         }else if(args[0].equalsIgnoreCase("version")){
-            if(!sender.hasPermission("joinTravel.version")){
+            if(!sender.hasPermission("soloExperience.version")){
                 send(sender, "&cNo permission");
                 return true;
             }
@@ -41,17 +41,16 @@ public class MainCommand implements CommandExecutor {
 
 
         }else if(args[0].equalsIgnoreCase("reload")){
-            if(!sender.hasPermission("joinTravel.reload")){
+            if(!sender.hasPermission("soloExperience.reload")){
                 send(sender, "&cNo permission");
                 return true;
             }
-
-
             plugin.reloadConfig();
+            send(sender, "&aFiles reloaded!");
 
 
         }else if(args[0].equalsIgnoreCase("chest")){
-            if(!sender.hasPermission("joinTravel.chest")){
+            if(!sender.hasPermission("soloExperience.chest")){
                 send(sender, "&cNo permission");
                 return true;
             }
