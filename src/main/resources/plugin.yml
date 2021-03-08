@@ -1,13 +1,32 @@
-name: JoinTravel
-version: 1.0
-main: com.popupmc.jointravel.JoinTravel
-description: Join Travel
-author: junebug12851
+name: PMCSoloExperience
+version: ${project.version}
+main: com.popupmc.soloexperience.SoloExperience
+description: ${project.description}
+authors: [junebug12851, lelesape]
 api-version: 1.15
 
 commands:
-  jt-continue:
-    permission: jt.continue
-    permission-message: You don't have permission to perform this action
-    description: Join Travel Continue
-    usage: /jt-continue <player>
+  soloExperience:
+    aliases: [se]
+    description: "SoloExperience's main command."
+    usage: Command was not registered properly.
+
+
+permissions:
+  soloExperience.version:
+    description: Allows a player to check the plugin's current version.
+    default: op
+  soloExperience.reload:
+    description: Allows a player to reload the plugin and its files.
+    default: op
+  soloExperience.chest:
+    description: Allows a player to spawn a chest for another player.
+    default: op
+  soloExperience.*:
+    description: Allows a player to check the plugin's current version.
+    default: op
+    children:
+      soloExperience.version: true
+      soloExperience.reload: true
+      soloExperience.chest: true
+
