@@ -2,6 +2,7 @@ package com.popupmc.soloexperience.events;
 
 import com.popupmc.soloexperience.SoloExperience;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,17 +18,26 @@ public class JoinEvent implements Listener {
         this.plugin = plugin;
     }
 
+    /**
+     * Logs an executed command to console.
+     * @param cmd The command being executed.
+     */
+    private void logCommand(String cmd){
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix")+" &eExecuting cmd: &f"+cmd));
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         if(!event.getPlayer().hasPlayedBefore()) {
             // New player incoming
             FileConfiguration config = plugin.getConfig();
             Player player = event.getPlayer();
+            boolean logCommands = config.getBoolean("log commands to console");
 
             for(String command : config.getStringList("join commands")){
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command
-                        .replace("%player%", player.getName())
-                        .replace("%world%", player.getWorld().getName()));
+                command = command.replace("%player%", player.getName()).replace("%world%", player.getWorld().getName());
+                if(logCommands) logCommand(command);
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
             }
 
             int delay = config.getInt("chest spawn delay");

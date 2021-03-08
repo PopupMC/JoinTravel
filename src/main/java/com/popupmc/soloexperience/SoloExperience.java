@@ -93,12 +93,13 @@ public class SoloExperience extends JavaPlugin {
 
         chestLoc.getBlock().setType(Material.CHEST);
 
+        Chest chest;
+
         if(getConfig().getBoolean("vanilla contents")) {
-            Chest chest = (Chest) chestLoc.getBlock().getState();
+            chest = (Chest) chestLoc.getBlock().getState();
             chest.setLootTable(LootTables.SPAWN_BONUS_CHEST.getLootTable());
-            chest.update();
         }else {
-            Chest chest = (Chest) chestLoc.getBlock().getState();
+            chest = (Chest) chestLoc.getBlock().getState();
             Inventory chestInv = chest.getInventory();
             List<ItemStack> items = new ArrayList<>();
             getConfig().getStringList("chest contents").forEach(i -> items.add(
@@ -111,8 +112,8 @@ public class SoloExperience extends JavaPlugin {
                     chestInv.setItem(i, items.get(r.nextInt(items.size())));
                 }
             }
-            chest.update();
         }
+        chest.update();
 
         //torches
         chestLoc.clone().add(0,0,1).getBlock().setType(Material.TORCH);
